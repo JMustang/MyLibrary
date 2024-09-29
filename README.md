@@ -116,3 +116,29 @@ INFO     Using import string main:app
  │                                                     │
  ╰─────────────────────────────────────────────────────╯
 ```
+
+## Create a CRUD
+
+## What CRUD is
+
+- CRUD is an acronym
+  for four functions that are used to manipulate data
+  in a data storage application.
+
+**C -> CREATE:** create a resource.
+**R -> READ:** read a resource.
+**U -> UPDATE:** update a resource.
+**D -> DELETE:** delete a resource.
+
+## What is a resource?
+
+- The data that an API
+  provides or allows us to manipulate.
+  This is accessible through an endpoint.
+
+| ENDPOINT        | HTTP METHOD | DESCRIPTION             |
+| --------------- | ----------- | ----------------------- |
+| /books          | GET         | Get a list of all books |
+| /books          | POST        | Create a book           |
+| /book/{book_id} | PATCH       | Update a book           |
+| /book/{book_id} | DELETE      | Delete a book           |
