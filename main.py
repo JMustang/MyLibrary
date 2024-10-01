@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, status
 from pydantic import BaseModel
 
 import data as db
@@ -29,7 +29,7 @@ async def get_book(book_id: int) -> dict:
 
 
 # POST
-@app.post("/books")
+@app.post("/books", status_code=status.HTTP_201_CREATED)
 async def create_books(book_data: int) -> dict:
     new_book = book_data.model_dump()
 
