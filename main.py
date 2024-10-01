@@ -23,3 +23,8 @@ async def create_books() -> dict:
 @app.patch("/book/{book_id}")
 async def update_book(book_id: int) -> dict:
     return db.books[book_id]
+
+
+@app.delete("/book/{book_id}")
+async def delete_book(book_id: int) -> dict:
+    return db.books[book_id]
