@@ -10,11 +10,16 @@ async def get_books():
     return db.books
 
 
-@app.get("/books/{book_id}")
-async def get_book(book_id: int):
+@app.get("/book/{book_id}")
+async def get_book(book_id: int) -> dict:
     return db.books[book_id]
 
 
 @app.post("/books")
-async def create_books():
+async def create_books() -> dict:
     db.books.append(book)
+
+
+@app.patch("/book/{book_id}")
+async def update_book(book_id: int) -> dict:
+    return db.books[book_id]
