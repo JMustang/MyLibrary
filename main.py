@@ -1,11 +1,22 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 import data as db
 
 app = FastAPI()
 
 
-@app.get("/books")
+class Book(BaseModel):
+    id: int
+    title: str
+    author: str
+    publisher: str
+    published_date: str
+    page_count: int
+    language: str
+
+
+@app.get("/books", response_model=list[Book])
 async def get_books():
     return db.books
 
