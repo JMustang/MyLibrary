@@ -1,4 +1,5 @@
 from fastapi import FastAPI, status
+from fastapi.exceptions import HTTPException
 from pydantic import BaseModel
 
 import data as db
@@ -25,7 +26,10 @@ async def get_books():
 # GET BY ID
 @app.get("/book/{book_id}")
 async def get_book(book_id: int) -> dict:
-    return db.books[book_id]
+    for book in db.books:
+        if book["id"] == book_id:
+            return book
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found")
 
 
 # POST
