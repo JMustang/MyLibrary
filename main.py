@@ -53,7 +53,10 @@ async def create_books(book_data: Book) -> dict:
 # UPDATE
 @app.patch("/book/{book_id}")
 async def update_book(book_id: int, updateBook: UpdateBookModel) -> dict:
-    pass
+    for book in db.books:
+        if book["id"] == book_id:
+            book.update(updateBook.model_dump())
+            return book
 
 
 # DELETE
