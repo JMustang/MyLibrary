@@ -57,6 +57,7 @@ async def update_book(book_id: int, updateBook: UpdateBookModel) -> dict:
         if book["id"] == book_id:
             book.update(updateBook.model_dump())
             return book
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found")
 
 
 # DELETE
