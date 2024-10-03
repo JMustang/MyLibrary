@@ -17,6 +17,14 @@ class Book(BaseModel):
     language: str
 
 
+class UpdateBookModel(BaseModel):
+    title: str
+    author: str
+    publisher: str
+    page_count: int
+    language: str
+
+
 # GET
 @app.get("/books", response_model=list[Book])
 async def get_books():
@@ -44,8 +52,8 @@ async def create_books(book_data: Book) -> dict:
 
 # UPDATE
 @app.patch("/book/{book_id}")
-async def update_book(book_id: int) -> dict:
-    return db.books[book_id]
+async def update_book(book_id: int, updateBook: UpdateBookModel) -> dict:
+    pass
 
 
 # DELETE
