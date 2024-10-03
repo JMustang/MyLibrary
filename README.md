@@ -142,3 +142,33 @@ INFO     Using import string main:app
 | /books          | POST        | Create a book           |
 | /book/{book_id} | PATCH       | Update a book           |
 | /book/{book_id} | DELETE      | Delete a book           |
+
+---
+
+## CRUD
+
+### A basic CRUD structure
+
+```py
+from fastapi import FastAPI
+import books as db
+
+@app.get('/books')
+async def book():
+  return db.books
+
+@app.post('/books')
+async def book():
+  return db.books
+
+@app.patch('/book/{book_id}')
+async def book():
+  return db.books
+
+@app.delete('/book/{book_id}')
+async def book():
+  return db.books
+```
+
+This is a basic example of a CRUD, I will explain
+every method used here.
