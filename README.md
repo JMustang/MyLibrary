@@ -234,3 +234,45 @@ The book function is defined as async, which means that it is asynchronous. **Fa
 
 **return db.books**
 The function simply returns db.books. This means that we are sending back to the client the list of books that are defined in the books module. Presumably, db.books is a list of dictionaries, with each dictionary representing a book.
+
+---
+
+POST **/books**
+
+```py
+@app.post("/books", status_code=status.HTTP_201_CREATED)
+async def create_books(book_data: Book) -> dict:
+    new_book = book_data.model_dump()
+
+    db.books.append(new_book)
+
+    return new_book
+```
+
+### Post method
+
+**@app.post("/books", status_code=status.HTTP_201_CREATED)**
+
+- We define a POST route for /books.
+  The parameter status_code=status.HTTP_201_CREATED defines the status code
+  that will be returned when the book is
+  successfully created (201, which indicates that a new resource was created).
+
+**async def create_books(book_data: Book) -> dict:**
+
+- The create_books function is asynchronous and receives book_data of type Book.
+  This means that we expect the client to send data in the format defined by the Book model.
+  The function returns a dictionary (dict).
+
+**new_book = book_data.model_dump()**
+
+- Pydantic's model_dump() method converts the book_data object to a dictionary,
+  making it easier to manipulate and store the data.
+
+**db.books.append(new_book)**
+
+- We add the new_book to the db.books list,
+  simulating the inclusion of the new book in the "database". 5.**return new_book**
+- We return the newly created book.
+  This provides the client with confirmation that the book was added
+  successfully and allows them to see the stored data.
