@@ -327,3 +327,21 @@ async def update_book(book_id: int, updateBook: UpdateBookModel) -> dict:
 
 - If the book is not found, we throw an HTTP 404 exception,
   indicating that the book was not found.
+
+---
+
+## Summary of Applied Best Practices
+
+**Data Models with Pydantic:** We use models (Book and UpdateBookModel) to ensure that data sent and received is in the expected format. This helps maintain data integrity.
+
+Use of Appropriate Status Codes:
+
+**201 CREATED** to indicate that a resource has been created.
+
+**204 NO CONTENT** to indicate that a resource has been deleted.
+
+Throwing HTTP exceptions (404 NOT FOUND) to handle situations where the resource is not found.
+
+**Asynchronous Functions:** Using async in functions allows for a more scalable application, especially when dealing with I/O operations (such as database interactions).
+
+This is a basic CRUD using FastAPI, which already includes all the main functionalities to manage resources (create, read, update and delete) efficiently and according to best practices.
