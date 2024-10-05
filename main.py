@@ -32,7 +32,7 @@ async def get_books():
 
 
 # GET BY ID
-@app.get("/book/{book_id}")
+@app.get("/books/{book_id}")
 async def get_book(book_id: int) -> dict:
     for book in db.books:
         if book["id"] == book_id:
@@ -51,7 +51,7 @@ async def create_books(book_data: Book) -> dict:
 
 
 # UPDATE
-@app.patch("/book/{book_id}")
+@app.patch("/books/{book_id}")
 async def update_book(book_id: int, updateBook: UpdateBookModel) -> dict:
     for book in db.books:
         if book["id"] == book_id:
@@ -61,6 +61,10 @@ async def update_book(book_id: int, updateBook: UpdateBookModel) -> dict:
 
 
 # DELETE
-@app.delete("/book/{book_id}")
-async def delete_book(book_id: int) -> dict:
-    return db.books[book_id]
+@app.delete("/books/{book_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_book(book_id: int):
+    for book in db.books:
+        if book["id"] == book_id:
+            db.books.remove(book)
+            return {"message": "Book deleted successfully"}
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found")
