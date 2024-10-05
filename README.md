@@ -276,3 +276,54 @@ async def create_books(book_data: Book) -> dict:
 - We return the newly created book.
   This provides the client with confirmation that the book was added
   successfully and allows them to see the stored data.
+
+---
+
+PATCH **/books/{book_id} - Update a Book**
+
+```py
+@app.patch("/books/{book_id}")
+async def update_book(book_id: int, updateBook: UpdateBookModel) -> dict:
+    for book in db.books:
+        if book["id"] == book_id:
+            book.update(updateBook.model_dump())
+            return book
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found")
+```
+
+**@app.patch("/books/{book_id}")**
+
+- We define a PATCH route that
+  allows us to update a specific book identified by book_id.
+
+**async def update_book(book_id: int, updateBook: UpdateBookModel) -> dict:**
+
+- This function is asynchronous and accepts two parameters:
+
+1. book_id (integer), which is the identifier of the book to be updated.
+
+2. updateBook (of type UpdateBookModel), which contains the data we want to update in the book. This model usually allows optional fields to perform a partial update.
+
+**for book in db.books:**
+
+- We iterate through the list of books
+  stored in db.books to find the book with the specified id.
+
+**if book["id"] == book_id:**
+
+- We check if the book id matches the book_id received.
+
+**book.update(updateBook.model_dump())**
+
+- We use the update() method to update the book
+  dictionary with the values ​​present in updateBook.
+  updateBook.model_dump() converts the model data into a dictionary.
+
+**return book**
+
+- We return the updated book.
+
+**raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found")**
+
+- If the book is not found, we throw an HTTP 404 exception,
+  indicating that the book was not found.
