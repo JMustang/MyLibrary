@@ -153,6 +153,8 @@ INFO     Using import string main:app
 from fastapi import FastAPI
 import books as db
 
+app = FastAPI()
+
 @app.get('/books')
 async def book():
   return db.books
@@ -171,4 +173,64 @@ async def book():
 ```
 
 This is a basic example of a CRUD, I will explain
-every method used here.
+every line of this code.
+
+---
+
+1.**from fastapi import FastAPI, HTTPException, status**
+
+- **FastAPI:** Here, we are importing the **FastAPI** class from the \* **FastAPI** library. This class is responsible for creating our web application. It provides the tools needed to define routes, manage requests and responses, and much more.
+
+- **HTTPException:** It is used to throw custom HTTP exceptions, such as 404 (not found) error.
+
+- **status:** Makes it easier to use HTTP status codes, making code more readable and less error-prone when using numbers.
+
+  2.**from pydantic import BaseModel**
+  We import **BaseModel** from **Pydantic**, which will be used to define the book's data model and validate inputs.
+
+  3.**import books as db**
+  We are importing a module called **books** and referencing it as db. We can assume that books is a Python module that contains information about a set of books (probably a fake database for demonstration purposes). This line allows us to use db.books in different routes to access and modify the list of books.
+
+  4.**app = FastAPI()**
+  Here, we are creating an instance of the **FastAPI** application. The app variable is our **FastAPI** application and all routes will be registered from it. When you start the server, this instance is the one that accepts and handles requests.
+
+  5.**Book Model Definition**
+
+```py
+class Book(BaseModel):
+    title: str
+    author: str
+    published_year: int
+    id: int
+```
+
+- **class Book(BaseModel)**
+  We create a Book class that inherits from BaseModel. This defines the format of the data we expect for each book.
+
+- **title, author, published_year, id**
+  Each of the class attributes defines the type of data expected:
+
+- **title** and **author** are strings.
+- **published_year** is an integer representing the year of publication.
+- **id** is a unique identifier for the book (also an integer).
+
+Now, let's go to the routes:
+
+---
+
+GET **/books**
+
+```py
+@app.get('/books', response_model=list[Book])
+async def book():
+    return db.books
+```
+
+**@app.get('/books')**
+This is a decorator that defines the /books route. The @app.get decorator means that this function will be called when the client makes an HTTP GET request to the /books path.
+
+**async def book():**
+The book function is defined as async, which means that it is asynchronous. **FastAPI** supports asynchronous programming, allowing multiple requests to be handled efficiently without blocking execution. This is especially useful for I/O scenarios, such as database calls.
+
+**return db.books**
+The function simply returns db.books. This means that we are sending back to the client the list of books that are defined in the books module. Presumably, db.books is a list of dictionaries, with each dictionary representing a book.
