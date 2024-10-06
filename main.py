@@ -1,8 +1,8 @@
 from fastapi import FastAPI, status
 from fastapi.exceptions import HTTPException
-from schemas import Book, UpdateBookModel
+from src.books.schemas import Book, UpdateBookModel
 
-from data import books as db
+from src.books.data import books as db
 
 app = FastAPI()
 

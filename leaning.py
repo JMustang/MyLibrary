@@ -2,7 +2,7 @@ from typing import Optional
 from fastapi import FastAPI, Header
 from pydantic import BaseModel
 
-import data as db
+import src.books.data as db
 
 app = FastAPI()
 
