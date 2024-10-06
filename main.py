@@ -1,40 +1,22 @@
 from fastapi import FastAPI, status
 from fastapi.exceptions import HTTPException
-from pydantic import BaseModel
+from schemas import Book, UpdateBookModel
 
-import data as db
+from data import books as db
 
 app = FastAPI()
-
-
-class Book(BaseModel):
-    id: int
-    title: str
-    author: str
-    publisher: str
-    published_date: str
-    page_count: int
-    language: str
-
-
-class UpdateBookModel(BaseModel):
-    title: str
-    author: str
-    publisher: str
-    page_count: int
-    language: str
 
 
 # GET
 @app.get("/books", response_model=list[Book])
 async def get_books():
-    return db.books
+    return db
 
 
 # GET BY ID
 @app.get("/books/{book_id}")
 async def get_book(book_id: int) -> dict:
-    for book in db.books:
+    for book in db:
         if book["id"] == book_id:
             return book
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found")
@@ -45,7 +27,7 @@ async def get_book(book_id: int) -> dict:
 async def create_books(book_data: Book) -> dict:
     new_book = book_data.model_dump()
 
-    db.books.append(new_book)
+    db.append(new_book)
 
     return new_book
 
@@ -53,7 +35,7 @@ async def create_books(book_data: Book) -> dict:
 # UPDATE
 @app.patch("/books/{book_id}")
 async def update_book(book_id: int, updateBook: UpdateBookModel) -> dict:
-    for book in db.books:
+    for book in db:
         if book["id"] == book_id:
             book.update(updateBook.model_dump())
             return book
@@ -63,8 +45,8 @@ async def update_book(book_id: int, updateBook: UpdateBookModel) -> dict:
 # DELETE
 @app.delete("/books/{book_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_book(book_id: int):
-    for book in db.books:
+    for book in db:
         if book["id"] == book_id:
-            db.books.remove(book)
+            db.remove(book)
             return {"message": "Book deleted successfully"}
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found")
