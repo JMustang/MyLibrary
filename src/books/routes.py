@@ -4,7 +4,7 @@ from src.books.schemas import Book, UpdateBookModel
 
 from src.books.data import books as db
 
-router = APIRouter(prefix="/books", tags=["books"])
+router = APIRouter()
 
 
 # GET
