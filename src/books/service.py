@@ -19,7 +19,11 @@ class BookService:
         return book if book is not None else None
 
     async def create_book(self, book_data: CreateBookModel, session: AsyncSession):
-        pass
+        book_data_dict = book_data.model_dump()
+        new_book = Book(**book_data_dict)
+        session.add(new_book)
+        await session.commit()
+        return new_book
 
     async def update_book(
         self, book_uid: str, update_date: UpdateBookModel, session: AsyncSession
