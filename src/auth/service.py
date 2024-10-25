@@ -4,8 +4,12 @@ from sqlmodel import select
 
 
 class UserService:
-    async def get_user_by_email(email: str, session: AsyncSession):
+    async def get_user_by_email(self, email: str, session: AsyncSession):
         statement = select(User).where(User.email == email)
         result = await session.exec(statement)
-        book = result.first()
-        return book
+        user = result.first()
+        return user
+
+    async def user_exists(self, email, session: AsyncSession):
+        user = await self.get_user_by_email(email, session)
+        return True if user is not None else False
