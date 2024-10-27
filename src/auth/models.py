@@ -7,9 +7,7 @@ import uuid
 class User(SQLModel, table=True):
     __tablename__ = "users"
     uid: uuid.UUID = Field(
-        sa_column=Column(
-            pg.UUID, nullable=False, primary_key=True, default=uuid.uuid4()
-        )
+        sa_column=Column(pg.UUID, nullable=False, primary_key=True, default=uuid.uuid4)
     )
     username: str
     email: str
