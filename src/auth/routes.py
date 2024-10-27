@@ -10,7 +10,7 @@ user_service = UserService()
 
 
 @authRouter.post(
-    "/singup", response_model=UserModel, status_code=status.HTTP_201_CREATED
+    "/signup", response_model=UserModel, status_code=status.HTTP_201_CREATED
 )
 async def create_user_account(
     user_data: UserCreateModel, session: AsyncSession = Depends(get_session)
