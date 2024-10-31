@@ -5,6 +5,7 @@ from src.db.main import get_session
 from sqlmodel.ext.asyncio.session import AsyncSession
 from fastapi.exceptions import HTTPException
 from .utils import create_access_token, decode_token, verify_passwd
+from fastapi.responses import JSONResponse
 from datetime import timedelta
 
 authRouter = APIRouter()
@@ -54,3 +55,14 @@ async def login_users(
                 expiry=timedelta(days=REFRESH_TOKEN_EXPIRY),
                 refresh=True,
             )
+            return JSONResponse(
+                content={
+                    "message": "Login successful",
+                    "access_token": access_token,
+                    "refresh_token": refresh_token,
+                    "user": {"email": user.email, "uid": str(user.uid)},
+                },
+            )
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Email or Password"
+    )
